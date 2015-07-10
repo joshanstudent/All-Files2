@@ -1,0 +1,46 @@
+  <!--
+    ===================================================
+    "EXHIBITS" PAGE/TEMPLATE: displays all the exhibits 
+    ===================================================
+  -->
+
+  <script type="text/x-handlebars" id="exhibits">
+    <div class="pageClass">
+      <section class="exhibitSection cf">
+        <h2>Exhibits</h2>
+        <div>
+          There are currently <strong><em>3</em></strong> exhibits running at SAMOCA...visit us and see them all!!!
+        </div>
+        <ul class="singleExhibitList cf">
+        {{#each}}
+          <li class="singleExhibitListItem">
+            <h3>
+              {{#link-to 'exhibit' this}}
+                {{title}}
+              {{/link-to}}
+            </h3>
+            <span><em>by <strong>{{artist_name}}</strong></em></span>
+          </li>
+        {{/each}}
+        </ul>
+        <div>{{outlet}}</div>
+      </section>
+    </div>
+  </script>
+
+
+  <!--
+    =========================================================
+    "EXHIBIT" PAGE/TEMPLATE: lists only one exhibit at a time
+    =========================================================
+  -->
+
+  <script type="text/x-handlebars" id="exhibit">
+    <article class="singleExhibitContent">
+    <h2></h2>
+      <p>
+        <img {{bind-attr src=image}} class="singleExhibitImage imageBorder" align="left" />
+        {{exhibit_info}}
+      </p>
+    </article>
+  </script>

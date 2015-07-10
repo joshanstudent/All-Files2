@@ -1,0 +1,13 @@
+Chapter 03 Challenge Snippets 
+-----------------------------
+
+{
+  artist: "Avery Washington",
+  work: "Abstractionist Works"
+}, {
+  artist: "Paul Shellington",
+  work: "Bird Watching"
+}, {
+  artist: "Jacob Mars",
+  work: "General Works"
+}

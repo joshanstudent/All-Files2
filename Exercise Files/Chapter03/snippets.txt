@@ -1,0 +1,139 @@
+Chapter 03 Snippets 
+-------------------
+
+03-02
+-----
+
+Paste this code on line 27 of "index.html"
+------------------------------------------
+
+        {{#link-to "collections" class="btn btn-primary"}}Collections{{/link-to}}
+
+
+
+
+Paste this code below the About template in "index.html"
+--------------------------------------------------------
+
+  <!--
+    =================================================================
+    "COLLECTIONS" COMPONENT TEMPLATE: displays the Collection content 
+    =================================================================
+  -->
+
+  <script type="text/x-handlebars" id="components/single-collection">
+    <h2>Collections</h2>
+    This is the SAMOCA Collections Page
+  </script>
+
+  <script type="text/x-handlebars" id="collections">
+    <section class="pageClass clearfix">
+      {{single-collection}}
+    </section>
+  </script>
+
+
+
+03-03
+-----
+
+Paste this code below the App.Router.map function in "app.js"
+-------------------------------------------------------------
+
+/*
+ * COLLECTIONS CODE STARTS HERE
+ */
+
+// Collections Route
+App.CollectionsRoute = Ember.Route.extend({
+  model: function() {
+    return [
+      {
+        title: "Samoca Photography Collections",
+        copy: "The Photography Gallery exhibits over 2,000 rotating examples from the permanent collection, which spans from the very beginnings of the medium to the present day. Collection highlights include silver  gelatin prints by Ansel Adams, landscapes by John Pfal, and portraits  by Robert Mapplethorpe.",
+        image: "images/collections/collections-photography.jpg"
+      }, {
+        title: "Samoca Painting Collections",
+        copy: "The SAMOCA collection of paintings includes work from 1950 to the present, and is ever expanding. The collection is especially renowned for its emphasis on California art and artists, including Sam Francis, Nathan Oliveira, and Wayne Thiebaud.",
+        image: "images/collections/collections-painting.jpg"
+      }, {
+        title: "Samoca Sculpture Collections",
+        copy: "Comprising American sculpture from the mid-19th through the late 20th centuries, SAMOCA's collection is famed for its almost complete series of Frederic Remington's, as well as the extensive outdoor sculpture gardens containing work from modernist Americans such as Richard Serra and Isamu Noguchi.",
+        image: "images/collections/collections-sculpture.jpg"
+      }
+    ];
+  }
+});
+
+
+
+Delete lines 92 through 106 in "index.html" and put this code in its place
+--------------------------------------------------------------------------
+
+    <script type="text/x-handlebars" id="components/single-collection">
+      <strong>{{title}}</strong>
+      <br>
+      {{copy}}
+      <br><br>
+    </script>
+    
+    <script type="text/x-handlebars" id="collections">
+      <section class="pageClass clearfix">
+        <h2>Collections</h2>
+        {{#each}}
+          {{single-collection title=title copy=copy}}
+        {{/each}}
+      </section>
+    </script>
+
+
+03-04
+-----
+
+Delete lines 92 through 106 in "index.html" again and put this code in its place
+--------------------------------------------------------------------------------
+
+    <script type="text/x-handlebars" id="components/single-collection">
+      <h3>{{title}}</h3>
+      <img {{bind-attr src=image}} class="collectionsImage" align="left">
+      {{copy}}
+    </script>
+
+    <script type="text/x-handlebars" id="collections">
+      <section class="pageClass clearfix">
+        <h2>Collections</h2>
+        {{#each}}
+          {{single-collection title=title copy=copy image=image}}
+        {{/each}}
+      </section>
+    </script>
+
+
+
+
+Delete lines 98 through 105 in "index.html" again and put this code in its place
+--------------------------------------------------------------------------------
+
+  <script type="text/x-handlebars" id="collections">
+    <section class="pageClass clearfix">
+      <h2>Collections</h2>
+      {{#each}}
+        {{#single-collection title=title image=image}}
+          {{copy}}
+        {{/single-collection}}
+      {{/each}}
+    </section>
+  </script>
+
+
+03-05
+-----
+
+Paste this code below the "App.CollectionsRoute" content in "app.js"
+--------------------------------------------------------------------
+
+// Customize the Collections component
+App.SingleCollectionComponent = Ember.Component.extend({
+  tagName: "article",
+  classNames: ["collectionArticleClass cf"]
+});

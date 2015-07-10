@@ -1,0 +1,132 @@
+Chapter 04 Snippets 
+-------------------
+
+04-02
+-----
+
+Paste this code on line 28 of "index.html"
+------------------------------------------
+
+        {{#link-to "exhibits" class="btn btn-primary"}}Exhibits{{/link-to}}
+
+
+
+
+Paste this code below the Collections template in "index.html"
+--------------------------------------------------------------
+
+  <!--
+    ===================================================
+    "EXHIBITS" PAGE/TEMPLATE: displays all the exhibits 
+    ===================================================
+  -->
+  <script type="text/x-handlebars" id="exhibits">
+    <div class="pageClass">
+      <section class="exhibitSection cf">
+        <h2>Exhibits</h2>
+        This is where ALL our exhibits will be listed
+      </section>
+    </div>
+  </script>
+
+
+
+  <!--
+    =========================================================
+    "EXHIBIT" PAGE/TEMPLATE: lists only one exhibit at a time
+    =========================================================
+  -->
+  <script type="text/x-handlebars" id="exhibit">
+    <article class="singleExhibitContent">
+    </article>
+  </script>
+
+
+
+Paste this code on line 6 of "app.js"
+-------------------------------------
+  this.resource("exhibits", function(){
+    this.resource("exhibit", { path: "/:exhibit_id"});
+  });
+
+
+04-04
+-----
+
+Paste this code above the model data in "app.js"
+------------------------------------------------
+
+// Route for all Exhibits
+App.ExhibitsRoute = Ember.Route.extend({
+  model: function() {
+    return exhibits;
+  }
+});
+
+
+
+Paste this code below the "Exhibits"route object in "app.js"
+------------------------------------------------------------
+
+// Route for a single Exhibit
+App.ExhibitRoute = Ember.Route.extend({
+  model: function(params) {
+    return exhibits.findBy("id", params.exhibit_id);
+  }
+});
+
+
+04-05
+-----
+
+Paste this code below the "ExhibitRoute" in "app.js"
+-------------------------------------------------------
+
+// Array controller...decorates all model data
+App.ExhibitsController = Ember.ArrayController.extend({
+  totalExhibits: function(){
+    return this.get("model.length");
+  }.property("@each")
+});
+
+
+
+Paste this code below the "ArrayController" in "app.js"
+-------------------------------------------------------
+
+// Object controller...decorates a single piece of model data
+App.ExhibitController = Ember.ObjectController.extend({
+  exhibitTitle: function(){
+    return this.get("title") + " by " + this.get("artist_name");
+  }.property("artist_name", "title")
+});
+
+
+
+04-06
+-----
+
+Replace the "ExhibitsRoute" code in "app.js" with this
+------------------------------------------------------
+
+  model: function() {
+    return $.getJSON("js/exhibits.json").then(function(data) {
+      return data.exhibits;
+    });
+  }
+
+
+
+Replace the "ExhibitRoute" code in "app.js" with this
+-----------------------------------------------------
+
+  model: function(params) {
+    return $.getJSON("js/exhibits.json").then(function(data) {
+      var modelId = params.exhibit_id - 1;
+      data.exhibits.title = data.exhibits[modelId].title;
+      data.exhibits.artist_name = data.exhibits[modelId].artist_name;
+      data.exhibits.exhibit_info = data.exhibits[modelId].exhibit_info;
+      data.exhibits.image = data.exhibits[modelId].image;
+      return data.exhibits;
+    });
+  }
